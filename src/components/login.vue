@@ -84,7 +84,9 @@ export default {
   .login {
     width: 100%;
     height: 100%;
-    background-color: #2b4b6b;
+    background-image: url("../assets/t_bg.png");
+    background-size: cover;
+    //background-color: #2b4b6b;
     display: flex;
     justify-content: center;
     align-items: center;
