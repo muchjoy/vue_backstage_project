@@ -4,6 +4,7 @@
       @current-change="handleCurrentChange"
       :current-page="pagenum"
       :page-sizes="[1, 2, 4, 8]"
+      :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
@@ -18,6 +19,10 @@ export default {
       default: 0
     },
     pagenum: {
+      type: Number,
+      default: 0
+    },
+    pagesize: {
       type: Number,
       default: 0
     }

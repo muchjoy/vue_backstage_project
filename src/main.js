@@ -12,10 +12,13 @@ import '@/assets/css/global.css'
 // 注册全局组件
 import breadcrumb from '@/views/breadcrumb'
 import page from '@/views/page'
+import addDialog from '@/public/addDialog'
 // 面包屑导航
 Vue.component('breadcrumb', breadcrumb)
 // 分页
 Vue.component('page', page)
+// 弹层
+Vue.component('addDialog', addDialog)
 
 Vue.use(ElementUI)
 
