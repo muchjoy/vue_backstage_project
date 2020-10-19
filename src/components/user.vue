@@ -33,11 +33,11 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="180px">
-          <template>
-            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+          <template v-slot="scope">
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click=editUserInfo(scope.row.id)></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUser(scope.row.id)"></el-button>
             <el-tooltip effect="dark" content="修改权限" placement="top">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="getPower(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -63,18 +63,58 @@
         <form-input ref="inputForm"></form-input>
       </template>
     </add-dialog>
+
+    <!--编辑弹层-->
+    <add-dialog
+      title="编辑用户"
+      :dialogVisible="editDialog"
+      @dialogChange="editDialogClose"
+      @changeHandle="editFromSubmit"
+    >
+      <template #inputForm>
+        <edit-from :editList="editList" ref="editInputForm"></edit-from>
+      </template>
+    </add-dialog>
+
+    <!--修改权限弹框-->
+    <add-dialog
+      :dialogVisible="powerEditJudge"
+      title="分配角色"
+      @dialogChange="powerClose"
+      @changeHandle="distributionUser"
+    >
+      <template #inputForm>
+        <div>
+          <p>当前的用户: {{ userInfo.username }}</p>
+          <p>当前的权限: {{ userInfo.role_name }}</p>
+          <span>分配新角色: </span>
+          <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in powerList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.roleDesc">
+            </el-option>
+          </el-select>
+        </div>
+      </template>
+    </add-dialog>
   </div>
 </template>
 
 <script>
-import { getData, modifyUser, addUserInfo } from '@/network/home/users'
+// 请求
+import { getData, modifyUser, addUserInfo, editUser, editSubmit, deleteUser, getPower, powerEdit } from '@/network/home/users'
 
-import formInput from '@/views/addUserForm'
+// 组件
+import formInput from '@/components/UserForm/addUserForm'
+import editFrom from '@/components/UserForm/editFrom'
 
 export default {
   name: 'user',
   components: {
-    formInput
+    formInput,
+    editFrom
   },
   data () {
     return {
@@ -85,9 +125,25 @@ export default {
         // 当前每页条数
         pagesize: 1
       },
+      // 用户信息
       userList: [],
+      // 用户个数
       total: 0,
-      dialogVisible: false
+      // 添加用户弹层关闭判断
+      dialogVisible: false,
+      // 收集添加用户表单信息
+      userInfoList: {},
+      // 编辑弹层关闭判断
+      editDialog: false,
+      // 修改权限弹层判断
+      powerEditJudge: false,
+      // 编辑请求数据列表
+      editList: {},
+      // 单层用户信息
+      userInfo: {},
+      // 权限列表
+      powerList: [],
+      value: ''
     }
   },
   created () {
@@ -98,7 +154,6 @@ export default {
     async getUsers () {
       try {
         const res = await getData(this.queryInfo)
-        console.log(res)
         if (res.meta.status !== 200) {
           return this.$message.error(`${res.meta.msg}`)
         }
@@ -122,31 +177,122 @@ export default {
     },
     // 添加用户
     async handleChange () {
-      const res = await addUserInfo()
+      this.userInfoList = this.$refs.inputForm.addUserForm
+      const res = await addUserInfo(this.userInfoList)
+      try {
+        if (res.meta.status !== 201) {
+          return this.$message.error(`${res.meta.msg}`)
+        }
+        this.$message.success(`${res.meta.msg}`)
+        // 重新请求 渲染
+        await this.getUsers()
+        // 关闭弹层
+        this.dialogHandler()
+      } catch (e) {
+        this.$message.error(e)
+      }
+    },
+    // 编辑用户信息获取
+    async editUserInfo (val) {
+      // 打开弹层
+      this.editDialog = true
+      // 发送请求
+      const res = await editUser(val)
+      try {
+        if (res.meta.status !== 200) {
+          return this.$message.error(`${res.meta.msg}`)
+        }
+        this.editList = res.data
+      } catch (e) {
+        this.$message.error(e)
+      }
+    },
+    // 编辑用户信息确认
+    async editFromSubmit () {
+      const { id, email, mobile } = this.$refs.editInputForm.editList
+      const res = await editSubmit(id, email, mobile)
+      try {
+        if (res.meta.status !== 200) {
+          return this.$message.error(`${res.meta.msg}`)
+        }
+        this.$message.success(`${res.meta.msg}`)
+        // 重新渲染页面
+        await this.getUsers()
+        // 关闭弹层
+        this.editDialog = false
+      } catch (e) {
+        this.$message.error(e)
+      }
+    },
+    // 根据id 删除用户
+    async removeUser (val) {
+      const confirmUser = await this.$confirm(
+        '此操作将永久删除该文件, 是否继续?', '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmUser !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      const res = await deleteUser(val)
+      console.log(this.queryInfo.pagesize)
+      if (res.meta.status !== 200) {
+        return this.$message.error(`${res.meta.msg}`)
+      }
+      this.$message.success(`${res.meta.msg}`)
+      await this.getUsers()
+      console.log(this.queryInfo.pagesize)
+      // 判断页面数量
+    },
+    // 获取角色列表
+    async getPower (val) {
+      this.userInfo = val
+      // 打开弹层
+      this.powerEditJudge = true
+      // 获取角色列表
+      const res = await getPower()
+      try {
+        if (res.meta.status !== 200) {
+          return this.$message.error(`${res.meta.msg}`)
+        }
+        this.powerList = res.data
+      } catch (e) {
+        this.$message.error(e)
+      }
+    },
+    // 点击重新分配角色
+    async distributionUser () {
+      console.log(this.userInfo.id)
+      const res = await powerEdit(this.userInfo.id)
       console.log(res)
     },
+    // 每页个数
     sizeHandle (val) {
-      console.log(val)
       this.queryInfo.pagesize = val
       this.getUsers()
     },
+    // 第几页
     handleSize (val) {
       this.queryInfo.pagenum = val
       this.getUsers()
     },
-    // 取消弹层
+    // 取消弹层添加用户
     dialogHandler () {
+      console.log('1')
       this.dialogVisible = false
-      console.log(this.$refs)
-    }
-  },
-  watch: {
-    queryInfo: {
-      handler (val) {
-        console.log(val)
-      },
-      deep: true,
-      immediate: true
+      this.$refs.inputForm.$children[0].resetFields()
+    },
+    // 编辑用户取消弹层
+    editDialogClose () {
+      console.log('2')
+      this.editDialog = false
+    },
+    // 分配角色弹层取消
+    powerClose () {
+      this.powerEditJudge = false
     }
   }
 }

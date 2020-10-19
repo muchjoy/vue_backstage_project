@@ -1,8 +1,8 @@
 <template>
   <el-dialog
     :title="title"
-    :visible.sync="dialogVisible"
-    width="30%"
+    :visible="dialogVisible"
+    width="50%"
     @close="closeDialog">
     <slot name="inputForm"></slot>
     <!--  取消 确认 按钮  -->
@@ -23,7 +23,6 @@ export default {
     dialogVisible: {
       type: Boolean,
       default: false
-
     }
   },
   methods: {
@@ -32,10 +31,9 @@ export default {
       this.$emit('dialogChange')
     },
     // 确认
-    changeClick (val) {
+    changeClick () {
       this.$emit('changeHandle')
     }
-
   }
 }
 </script>

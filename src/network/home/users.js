@@ -21,6 +21,51 @@ export const modifyUser = (id, type) => {
 export const addUserInfo = (form) => {
   return request({
     url: 'users',
-    method: 'post'
+    method: 'post',
+    data: form
+  })
+}
+
+// 编辑用户 获取用户信息
+export const editUser = (id) => {
+  return request({
+    url: `users/${id}`,
+    method: 'get'
+  })
+}
+
+// 编辑用户,确认信息
+export const editSubmit = (id, email, mobile) => {
+  return request({
+    url: `users/${id}`,
+    method: 'put',
+    data: {
+      email,
+      mobile
+    }
+  })
+}
+
+// 删除用户
+export const deleteUser = (id) => {
+  return request({
+    url: `users/${id}`,
+    method: 'delete'
+  })
+}
+
+// 修改权限
+export const powerEdit = (id) => {
+  return request({
+    url: `users/${id}/role`,
+    method: 'put'
+  })
+}
+
+// 获取角色列表
+export const getPower = () => {
+  return request({
+    url: 'roles',
+    method: 'get'
   })
 }

@@ -1,18 +1,18 @@
 <template>
   <!--表单-->
-  <el-form ref="userFormRef" class="login_form" :model="addForm" :rules="userInfoRules" label-width="100px">
+  <el-form class="login_form" :model="addUserForm" :rules="userInfoRules" label-width="70px">
     <!--用户名-->
     <el-form-item prop="username" label="用户名">
-      <el-input  v-model="addForm.username"></el-input>
+      <el-input  v-model="addUserForm.username"></el-input>
     </el-form-item>
     <el-form-item prop="password" label="密码">
-      <el-input  v-model="addForm.password"></el-input>
+      <el-input  v-model="addUserForm.password"></el-input>
     </el-form-item>
     <el-form-item prop="email" label="邮箱">
-      <el-input  v-model="addForm.email"></el-input>
+      <el-input  v-model="addUserForm.email"></el-input>
     </el-form-item>
     <el-form-item prop="mobile" label="手机">
-      <el-input  v-model="addForm.mobile"></el-input>
+      <el-input  v-model="addUserForm.mobile"></el-input>
     </el-form-item>
   </el-form>
 </template>
@@ -22,7 +22,7 @@ export default {
   name: 'formInput',
   data () {
     return {
-      addForm: {
+      addUserForm: {
         username: '',
         password: '',
         email: '',
