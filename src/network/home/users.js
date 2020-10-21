@@ -55,10 +55,13 @@ export const deleteUser = (id) => {
 }
 
 // 修改权限
-export const powerEdit = (id) => {
+export const powerEdit = (id, rid) => {
   return request({
     url: `users/${id}/role`,
-    method: 'put'
+    method: 'put',
+    data: {
+      rid
+    }
   })
 }
 

@@ -87,15 +87,16 @@
         <div>
           <p>当前的用户: {{ userInfo.username }}</p>
           <p>当前的权限: {{ userInfo.role_name }}</p>
-          <span>分配新角色: </span>
-          <el-select v-model="value" placeholder="请选择">
+          <p>分配新角色:
+            <el-select v-model="value" placeholder="请选择">
             <el-option
               v-for="item in powerList"
               :key="item.id"
               :label="item.roleName"
-              :value="item.roleDesc">
+              :value="item.id">
             </el-option>
-          </el-select>
+            </el-select>
+          </p>
         </div>
       </template>
     </add-dialog>
@@ -143,7 +144,7 @@ export default {
       userInfo: {},
       // 权限列表
       powerList: [],
-      value: ''
+      value: null
     }
   },
   created () {
@@ -265,9 +266,16 @@ export default {
     },
     // 点击重新分配角色
     async distributionUser () {
-      console.log(this.userInfo.id)
-      const res = await powerEdit(this.userInfo.id)
-      console.log(res)
+      const { meta } = await powerEdit(this.userInfo.id, this.value)
+      try {
+        if (meta.status !== 200) {
+          return this.$message.error(`${meta.msg}`)
+        }
+        this.$message.success(`${meta.msg}`)
+        this.powerEditJudge = false
+      } catch (e) {
+        this.$message.error(e)
+      }
     },
     // 每页个数
     sizeHandle (val) {

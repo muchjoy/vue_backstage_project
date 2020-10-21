@@ -8,6 +8,8 @@ const login = () => import('@/components/login')
 const home = () => import('@/components/Home')
 const welcome = () => import('@/components/Welcome')
 const users = () => import('@/components/user')
+const rights = () => import('@/components/power/rights')
+const roles = () => import('@/components/power/roles')
 
 const routes = [
   {
@@ -16,20 +18,34 @@ const routes = [
   },
   {
     path: '/login',
+    name: 'login',
     component: login
   },
   {
     path: '/home',
     component: home,
+    name: 'home',
     redirect: '/welcome',
     children: [
       {
         path: '/welcome',
+        name: 'welcome',
         component: welcome
       },
       {
         path: '/users',
+        name: 'users',
         component: users
+      },
+      {
+        path: '/rights',
+        name: 'rights',
+        component: rights
+      },
+      {
+        path: '/roles',
+        name: 'roles',
+        component: roles
       }
     ]
   }
