@@ -266,6 +266,9 @@ export default {
     },
     // 点击重新分配角色
     async distributionUser () {
+      if (!this.value) {
+        return this.$message.error('请选择新的角色')
+      }
       const { meta } = await powerEdit(this.userInfo.id, this.value)
       try {
         if (meta.status !== 200) {
@@ -273,6 +276,7 @@ export default {
         }
         this.$message.success(`${meta.msg}`)
         this.powerEditJudge = false
+        this.value = ''
       } catch (e) {
         this.$message.error(e)
       }

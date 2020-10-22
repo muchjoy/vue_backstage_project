@@ -10,6 +10,9 @@ const welcome = () => import('@/components/Welcome')
 const users = () => import('@/components/user')
 const rights = () => import('@/components/power/rights')
 const roles = () => import('@/components/power/roles')
+const goods = () => import('@/components/goods')
+const params = () => import('@/components/params')
+const categories = () => import('@/components/categories')
 
 const routes = [
   {
@@ -46,6 +49,21 @@ const routes = [
         path: '/roles',
         name: 'roles',
         component: roles
+      },
+      {
+        path: '/goods',
+        name: 'goods',
+        component: goods
+      },
+      {
+        path: '/params',
+        name: 'params',
+        component: params
+      },
+      {
+        path: '/categories',
+        name: 'categories',
+        component: categories
       }
     ]
   }
