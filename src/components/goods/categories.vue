@@ -17,7 +17,7 @@
           <span>父级分类</span>
           <el-cascader
             v-model="value"
-            :options=""
+            :options="categoriesList"
             :props="options"
             @change="selectedChange"></el-cascader>
         </template>
