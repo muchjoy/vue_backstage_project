@@ -11,15 +11,10 @@
         size=""
         title="添加分类"
         class="btnEdit"
+        @OpenHandler="openChange"
       >
         <template #formInput>
-          <categories-input></categories-input>
-          <span>父级分类</span>
-          <el-cascader
-            v-model="value"
-            :options="categoriesList"
-            :props="options"
-            @change="selectedChange"></el-cascader>
+          <add-sort-from :sortList="parentList"></add-sort-from>
         </template>
       </edit-modular>
       <!--树形表格-->
@@ -72,25 +67,20 @@
 </template>
 
 <script>
-import { getCategories, deleteSort, modifySort } from '@/network/goods/categories'
+import { getCategories, deleteSort, modifySort, getParent } from '@/network/goods/categories'
 
 // 子组件
 import categoriesInput from '@/components/goods/categoriesFromInput/categoriesInput'
+import addSortFrom from '@/components/goods/categoriesFromInput/addSortFrom'
 
 export default {
   name: 'categories',
   components: {
-    categoriesInput
+    categoriesInput,
+    addSortFrom
   },
   data () {
     return {
-      // 级联选择器配置对象
-      options: {
-        expandTrigger: 'hover',
-        label: 'cat_name',
-        value: 'cat_id',
-        children: 'children'
-      },
       columns: [
         {
           label: '分类名称',
@@ -134,6 +124,8 @@ export default {
       },
       // 商品分类数据列表
       categoriesList: [],
+      // 父级分类数据
+      parentList: [],
       // 总条数
       total: null
     }
@@ -152,6 +144,18 @@ export default {
         console.log(data)
         this.categoriesList = data.result
         this.total = data.total
+      } catch (e) {
+        this.$message.error(e)
+      }
+    },
+    // 获取父级分类数据类表
+    async getParentList () {
+      const { meta, data } = await getParent()
+      try {
+        if (meta.status !== 200) {
+          this.$message.error('获取父级分类失败')
+        }
+        this.parentList = data
       } catch (e) {
         this.$message.error(e)
       }
@@ -181,6 +185,10 @@ export default {
       } catch (e) {
         this.$message.error(e)
       }
+    },
+    // 打开弹层
+    openChange () {
+      this.getParentList()
     },
     // 修改每页显示
     sizeChangeHandler (val) {

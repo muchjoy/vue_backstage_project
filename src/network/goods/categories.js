@@ -9,6 +9,17 @@ export const getCategories = (params) => {
   })
 }
 
+// 获取父级分类数据列表
+export const getParent = () => {
+  return request({
+    url: 'categories',
+    method: 'get',
+    params: {
+      type: 2
+    }
+  })
+}
+
 // 删除分类
 export const deleteSort = (id) => {
   return request({
