@@ -7,12 +7,12 @@ Vue.use(VueRouter)
 const login = () => import('@/components/login')
 const home = () => import('@/components/Home')
 const welcome = () => import('@/components/Welcome')
-const users = () => import('@/components/user')
+const users = () => import('@/components/UserForm/user')
 const rights = () => import('@/components/power/rights')
 const roles = () => import('@/components/power/roles')
-const goods = () => import('@/components/goods')
-const params = () => import('@/components/params')
-const categories = () => import('@/components/categories')
+const goods = () => import('@/components/goods/goods')
+const params = () => import('@/components/goods/params')
+const categories = () => import('@/components/goods/categories')
 
 const routes = [
   {

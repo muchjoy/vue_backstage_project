@@ -10,6 +10,7 @@
         title="添加角色"
         content="添加角色"
         size=""
+        icon=""
         @ConfirmStatus="addUserPower"
       >
         <template #formInput>
@@ -50,6 +51,7 @@
           <template v-slot="scope">
             <!--编辑功能按钮  使用editForm组件-->
             <edit-modular
+              class="editleft"
               type="primary"
               icon="el-icon-edit"
               content="编辑"
@@ -65,6 +67,7 @@
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRightById(scope.row.id)">删除</el-button>
             <!--分配权限按钮-->
             <edit-modular
+              class="editright"
               type="warning"
               icon="el-icon-setting"
               title="分配权限"
@@ -263,7 +266,7 @@ export default {
     getChildrenKeys (node, arr) {
       // 如果当前节点不包括子节点, 那么就是三级节点, 将当前的节点id存入数组中
       if (!node.children) {
-        return  arr.push(node.id)
+        return arr.push(node.id)
       }
       // 如果包含子节点, 则循环 , 递归
       node.children.forEach(item => {
@@ -273,7 +276,7 @@ export default {
     // 分配弹层关闭触发事件
     dialogCloseHandle () {
       this.defaultKeysArr = []
-    },
+    }
   }
 }
 </script>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
+import ZkTable from 'vue-table-with-tree-grid'
 
 // 引入全局css样式
 import 'element-ui/lib/theme-chalk/index.css'
@@ -14,6 +15,7 @@ import breadcrumb from '@/public/breadcrumb'
 import page from '@/public/page'
 import addDialog from '@/public/addDialog'
 import EditModular from '@/public/EditModular'
+import deleteButton from '@/public/deleteButton'
 // 面包屑导航
 Vue.component('breadcrumb', breadcrumb)
 // 分页
@@ -22,8 +24,11 @@ Vue.component('page', page)
 Vue.component('addDialog', addDialog)
 // 编辑按钮功能组件
 Vue.component('EditModular', EditModular)
+// 删除按钮功能组件
+Vue.component('deleteButton', deleteButton)
 
 Vue.use(ElementUI)
+Vue.use(ZkTable)
 
 Vue.config.productionTip = false
 

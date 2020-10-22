@@ -3,16 +3,17 @@
   按钮可以传入的值:
      type: 按钮类型, 不传值为primary
      content: 按钮中间的文件
-     ico: 按钮图标, 不传值为编辑图标
+     icon: 按钮图标, 不传值为编辑图标
      size: 按钮大小, 默认为小按钮
   弹层可以传入的值:
       title: 标题
       dialogVisible: 布尔值 控制弹层开关
+  弹层触发的自定义事件:
       OpenHandler: 自定义事件, 打开弹层触发
       ConfirmStatus: 自定义事件, 点击确认按钮触发
-      dialogChange: 自定义事件, 取消关闭弹窗触发
+      dialogChange: 自定义事件, 取消关闭弹层触发
 -->
- <div style="display: inline-block">
+ <div style="display: inline-block; margin: 0 7px">
   <!--按钮-->
    <el-button :type="type" :icon="icon" :size="size" @click="openAddDialog">{{ content }}</el-button>
   <!--弹层-->
@@ -39,7 +40,8 @@ export default {
       default: 'mini'
     },
     content: {
-      type: String
+      type: String,
+      default: null
     },
     type: {
       type: String,
