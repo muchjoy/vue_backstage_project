@@ -209,5 +209,7 @@ export default {
 </script>
 
 <style scoped>
-
+.btnEdit {
+  margin: 0 0 20px !important;
+}
 </style>

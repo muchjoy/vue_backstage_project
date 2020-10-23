@@ -15,7 +15,7 @@
 -->
  <div style="display: inline-block; margin: 0 7px">
   <!--按钮-->
-   <el-button :type="type" :icon="icon" :size="size" @click="openAddDialog">{{ content }}</el-button>
+   <el-button :disabled="disabled" :type="type" :icon="icon" :size="size" @click="openAddDialog">{{ content }}</el-button>
   <!--弹层-->
    <el-dialog
      :title="title"
@@ -53,8 +53,11 @@ export default {
     },
     title: {
       type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
-
   },
   data () {
     return {
