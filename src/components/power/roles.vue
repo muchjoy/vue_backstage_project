@@ -11,6 +11,7 @@
         content="添加角色"
         size=""
         icon=""
+        class="editMod"
         @ConfirmStatus="addUserPower"
       >
         <template #formInput>
@@ -294,5 +295,8 @@ export default {
   .vcenter {
     display: flex;
     align-items: center;
+  }
+  .editMod {
+    margin: 0 !important;
   }
 </style>

@@ -12,7 +12,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加商品</el-button>
+          <el-button type="primary" @click="addGoods">添加商品</el-button>
         </el-col>
       </el-row>
       <!--表格区-->
@@ -35,7 +35,7 @@
             >
             </edit-modular>
             <!-- 删除按钮, 使用封装组件deleteButton -->
-            <delete-button @confirmDeletion="removeGoods(scope.row.goods_id)"></delete-button>
+            <delete-button @confirmDeletion="removeGoods(scope.row.goods_id)" type="商品"></delete-button>
           </template>
         </el-table-column>
       </el-table>
@@ -94,7 +94,7 @@ export default {
         if (meta.status !== 200) {
           return this.$message.error('删除商品失败')
         }
-        this.$message.success(`${meta.msg}`)
+        this.$message.success(meta.msg)
       } catch (e) {
         this.$message.error(e)
       }
@@ -108,13 +108,17 @@ export default {
     pageNumChange (val) {
       this.queryInfo.pagenum = val
       this.getGoodList()
+    },
+    // 跳转路由
+    addGoods () {
+      this.$router.push('/addGoods')
     }
   },
   filters: {
     getDates (val) {
       const dt = new Date(val)
       const y = dt.getFullYear()
-      const m = dt.getMonth() + 1
+      const m = (dt.getMonth() + 1 + '').padStart(2, '0')
       const d = dt.getDate()
 
       const hh = dt.getHours()

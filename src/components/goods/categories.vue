@@ -12,9 +12,10 @@
         title="添加分类"
         class="btnEdit"
         @OpenHandler="openChange"
+        @ConfirmStatus="confirmAddSort"
       >
         <template #formInput>
-          <add-sort-from :sortList="parentList"></add-sort-from>
+          <add-sort-from :sortList="parentList" ref="addInput"></add-sort-from>
         </template>
       </edit-modular>
       <!--树形表格-->
@@ -51,7 +52,7 @@
            </template>
           </edit-modular>
           <!--删除-->
-          <delete-button @confirmDeletion="deleteBtn(scope.row.cat_id)" content="删除"></delete-button>
+          <delete-button @confirmDeletion="deleteBtn(scope.row.cat_id)" content="删除" type="分类"></delete-button>
         </template>
       </zk-table>
       <!--分页-->
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-import { getCategories, deleteSort, modifySort, getParent } from '@/network/goods/categories'
+import { getCategories, deleteSort, modifySort, getParent, addSort } from '@/network/goods/categories'
 
 // 子组件
 import categoriesInput from '@/components/goods/categoriesFromInput/categoriesInput'
@@ -182,6 +183,21 @@ export default {
           return this.$message.error('更新分类名称失败')
         }
         this.$message.success('更新分类名称成功')
+      } catch (e) {
+        this.$message.error(e)
+      }
+    },
+    // 添加分类
+    async confirmAddSort () {
+      const info = this.$refs.addInput.sortInfo
+      console.log(info)
+      const { meta } = await addSort(info)
+      try {
+        if (meta.status !== 201) {
+          return this.$message.error('添加失败')
+        }
+        this.$message.success('添加分类成功')
+        await this.getList()
       } catch (e) {
         this.$message.error(e)
       }

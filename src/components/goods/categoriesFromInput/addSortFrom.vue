@@ -11,7 +11,8 @@
         :options="sortList"
         :props="options"
         @change="selectedChange"
-        clearable change-on-select
+        change-on-select
+        clearable
       >
       </el-cascader>
     </el-form-item>
@@ -35,10 +36,15 @@ export default {
         value: 'cat_id',
         children: 'children'
       },
+      // 选中父级分类数组
       selectedKeys: [],
+      // 表单绑定
       sortInfo: {
-        cat_name: ''
+        cat_pid: 0,
+        cat_name: '',
+        cat_level: 0
       },
+      // 表单验证
       sortRules: {
         sortName: [
           { required: true, message: '分类名称', trigger: 'blur' },
@@ -49,13 +55,22 @@ export default {
   },
   methods: {
     selectedChange () {
-      console.log(this.selectedKeys)
-      this.$emit('selectedHandler')
+      // 判断是否选中
+      if (this.selectedKeys.length > 0) {
+        this.sortInfo.cat_pid = this.selectedKeys[this.selectedKeys.length - 1]
+        this.sortInfo.cat_level = this.selectedKeys.length
+      } else {
+        this.sortInfo.cat_pid = 0
+        this.sortInfo.cat_level = 0
+      }
+      // this.$emit('selectedHandler')
     }
   }
 }
 </script>
 
 <style scoped>
-
+.el-cascader {
+  width: 100%;
+}
 </style>

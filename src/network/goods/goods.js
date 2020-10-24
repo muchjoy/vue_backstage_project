@@ -16,3 +16,22 @@ export const deleteGoods = (id) => {
     method: 'delete'
   })
 }
+
+// 商品分类数据列表
+export const getGoodsList = () => {
+  return request({
+    url: 'categories',
+    method: 'get'
+  })
+}
+
+// 获取动态参数列表
+export const getManyDataList = (id, type) => {
+  return request({
+    url: `categories/${id}/attributes`,
+    method: 'get',
+    params: {
+      sel: type
+    }
+  })
+}

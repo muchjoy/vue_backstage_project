@@ -38,3 +38,12 @@ export const modifySort = (id, val) => {
     }
   })
 }
+
+// 添加分类
+export const addSort = (data) => {
+  return request({
+    url: 'categories',
+    method: 'post',
+    data
+  })
+}
