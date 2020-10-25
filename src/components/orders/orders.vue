@@ -8,7 +8,7 @@
       <el-row :gutter="10">
         <el-col :span="8">
           <el-input placeholder="请输入内容"  class="input-with-select" v-model="queryInfo.query">
-            <el-button slot="append" icon="el-icon-search" @click="getGoodList"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="getOrders"></el-button>
           </el-input>
         </el-col>
       </el-row>
@@ -40,10 +40,23 @@
         <el-table-column label="操作">
           <template>
             <!--编辑-->
-            <edit-modular title="修改地址"></edit-modular>
+            <edit-modular title="修改地址"
+            >
+            </edit-modular>
+            <el-button type="success" effect="dark" size="mini">
+              <i class="el-icon-location"></i>
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
+      <!--分页-->
+      <page
+        :pagesize="queryInfo.pagesize"
+        :pagenum="queryInfo.pagenum"
+        :total="total"
+        @sizeChange="changeSize"
+        @changSize="pagenumChange"
+      ></page>
     </el-card>
   </div>
 </template>
@@ -73,6 +86,7 @@ export default {
   methods: {
     // 获取订单
     async getOrders () {
+      console.log(this.queryInfo)
       const { meta, data } = await getDataList(this.queryInfo)
       try {
         if (meta.status !== 200) {
@@ -83,6 +97,18 @@ export default {
       } catch (e) {
         this.$message.error(e)
       }
+    },
+    // 每页条数
+    changeSize (val) {
+      console.log(val)
+      this.queryInfo.pagesize = val
+      this.getOrders()
+    },
+    // 当前页数
+    pagenumChange (val) {
+      console.log(val)
+      this.queryInfo.pagenum = val
+      this.getOrders()
     }
   }
 }

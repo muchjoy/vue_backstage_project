@@ -15,6 +15,7 @@ const params = () => import('@/components/goods/params')
 const categories = () => import('@/components/goods/categories')
 const addGoods = () => import('@/components/goods/addGoods')
 const orders = () => import('@/components/orders/orders')
+const reports = () => import('@/components/reports/reports')
 
 const routes = [
   {
@@ -76,6 +77,11 @@ const routes = [
         path: '/orders',
         name: 'orders',
         component: orders
+      },
+      {
+        path: '/reports',
+        name: 'reports',
+        component: reports
       }
     ]
   }
