@@ -39,6 +39,21 @@ Vue.use(VueQuillEditor /* { default global options } */)
 Vue.use(ElementUI)
 Vue.use(ZkTable)
 
+// 注册全局过滤器
+// 格式化时间
+Vue.filter('getDates', data => {
+  const dt = new Date(data)
+  const y = dt.getFullYear()
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = dt.getDate()
+
+  const hh = dt.getHours()
+  const mm = dt.getMinutes()
+  const ss = dt.getSeconds()
+
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+})
+
 Vue.config.productionTip = false
 
 new Vue({

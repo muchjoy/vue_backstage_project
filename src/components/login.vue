@@ -58,18 +58,21 @@ export default {
     },
     // 发送请求
     async toLogon () {
-      const res = await Login(this.form.username, this.form.password)
-      // 先判断是否登陆成功
-      if (res.meta.status !== 200) {
-        // 登陆失败 错误提示
-        this.$message.error(`${res.meta.msg}`)
-      } else {
+      const { meta, data } = await Login(this.form.username, this.form.password)
+      try {
+        // 先判断是否登陆成功
+        if (meta.status !== 200) {
+          // 登陆失败 错误提示
+          return this.$message.error(meta.msg)
+        }
         // 成功 提示
-        this.$message.success(`${res.meta.msg}`)
+        this.$message.success(meta.msg)
         // 储存token
-        window.sessionStorage.setItem('token', res.data.token)
+        window.sessionStorage.setItem('token', data.token)
         // 跳转路由
         await this.$router.push('/home')
+      } catch (e) {
+        this.$message.error(e)
       }
     },
     resetBtn () {
