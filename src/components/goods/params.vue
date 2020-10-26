@@ -231,7 +231,6 @@ export default {
           this.manyDataList = data
         }
         this.onlyDataList = data
-        console.log(this.onlyDataList)
       } catch (e) {
         this.$message.error(e)
       }
@@ -337,7 +336,6 @@ export default {
     // 点击打开input框
     showInput (row) {
       row.inputVisible = true
-      console.log(row)
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus()
       })

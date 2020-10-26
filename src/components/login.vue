@@ -7,11 +7,11 @@
       <el-form ref="loginFormRef" class="login_form" :model="form" :rules="loginFormRules">
         <!--用户名-->
         <el-form-item prop="username">
-          <el-input prefix-icon="iconfont icon-yonghuming" v-model="form.username"></el-input>
+          <el-input class="iptDiv" prefix-icon="iconfont icon-yonghuming" v-model="form.username"></el-input>
         </el-form-item>
         <!--密码-->
         <el-form-item prop="password">
-          <el-input type="password" prefix-icon="iconfont icon-mima" v-model="form.password"></el-input>
+          <el-input class="iptDiv" type="password" prefix-icon="iconfont icon-mima" v-model="form.password"></el-input>
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="toLogin">登陆</el-button>
@@ -87,9 +87,10 @@ export default {
   .login {
     width: 100%;
     height: 100%;
-    background-image: url("../assets/t_bg.png");
-    background-size: cover;
-    //background-color: #2b4b6b;
+    // background-image: url("../assets/t_bg.png");
+    background: linear-gradient(to bottom right, #1641AA, #E19BB3) no-repeat 0 0 / cover;
+    // background-size: cover;
+    // background-color: #2b4b6b;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,19 +98,21 @@ export default {
   .login_box {
     width: 450px;
     height: 300px;
-    background-color: #ffffff;
+    //background-color: #ffffff;
+    background-color: rgba(0,0,0,.3);
+    //opacity: 0.5;
     border-radius: 3px;
     .avatar_box {
       width: 130px;
       height: 130px;
-      background-color: #eeeeee;
+      background-color: transparent;
       border-radius: 50%;
       padding: 10px;
       border: 1px solid #ffffff;
       position: absolute;
       left: 50%;
       transform: translate(-50%,-50%);
-      box-shadow: 0 0 10px rgba(0,0,0,.3);
+      box-shadow: 0 0 20px rgba(0,0,0,.4);
       img {
         width: 100%;
         height: 100%;
@@ -121,6 +124,9 @@ export default {
     padding: 30px;
     margin-top: 70px;
   }
+  //\deep\ .el-input__inner {
+  //  background-color: transparent !important;
+  //}
   .btns {
     display: flex;
     justify-content: flex-end;

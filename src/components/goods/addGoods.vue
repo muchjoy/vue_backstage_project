@@ -239,7 +239,6 @@ export default {
     },
     // 级联触发
     handleChange () {
-      console.log(this.tabDataList.goods_cat)
       if (this.tabDataList.goods_cat.length !== 3) {
         this.tabDataList.goods_cat = []
       }
@@ -264,12 +263,10 @@ export default {
     },
     // 文件 上传成功的钩子处理
     handleSuccess (response) {
-      console.log(response)
       // 拼接数据
       const picsObj = { pic: response.data.tmp_path }
       // 将数据追加到
       this.tabDataList.pics.push(picsObj)
-      console.log(this.tabDataList)
     }
   },
   computed: {

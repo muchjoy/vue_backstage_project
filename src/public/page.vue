@@ -44,11 +44,9 @@ export default {
   },
   methods: {
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条` + '每页显示数量')
       this.$emit('sizeChange', val)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}` + '当前第几页')
       this.$emit('changSize', val)
     }
   }

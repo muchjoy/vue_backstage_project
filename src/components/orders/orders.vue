@@ -96,7 +96,6 @@ export default {
   methods: {
     // 获取订单
     async getOrders () {
-      console.log(this.queryInfo)
       const { meta, data } = await getDataList(this.queryInfo)
       try {
         if (meta.status !== 200) {
@@ -110,13 +109,11 @@ export default {
     },
     // 每页条数
     changeSize (val) {
-      console.log(val)
       this.queryInfo.pagesize = val
       this.getOrders()
     },
     // 当前页数
     pagenumChange (val) {
-      console.log(val)
       this.queryInfo.pagenum = val
       this.getOrders()
     },

@@ -217,7 +217,6 @@ export default {
       if (confirmInfo !== 'confirm') {
         return this.$message.info('已取消删除')
       }
-      console.log(roleId, rightId)
       const { meta, data } = await deleteUserPower(roleId.id, rightId)
       try {
         if (meta.status !== 200) {
@@ -241,7 +240,6 @@ export default {
           return this.$message.error(`${res.meta.msg}`)
         }
         this.treeList = res.data
-        console.log(this.defaultKeysArr)
       } catch (e) {
         this.$message.error(e)
       }

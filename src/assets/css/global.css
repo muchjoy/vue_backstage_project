@@ -32,3 +32,8 @@ body{
 .iconfont {
     margin-right: 8px;
 }
+.iptDiv > input {
+    background: rgba(12, 12, 12, .1) !important;
+    color: lightskyblue;
+    border: 0;
+}

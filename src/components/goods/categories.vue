@@ -142,7 +142,6 @@ export default {
         if (meta.status !== 200) {
           return this.$message.error('获取分类列表失败')
         }
-        console.log(data)
         this.categoriesList = data.result
         this.total = data.total
       } catch (e) {
@@ -190,7 +189,6 @@ export default {
     // 添加分类
     async confirmAddSort () {
       const info = this.$refs.addInput.sortInfo
-      console.log(info)
       const { meta } = await addSort(info)
       try {
         if (meta.status !== 201) {

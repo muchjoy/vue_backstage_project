@@ -239,13 +239,11 @@ export default {
         return this.$message.info('已取消删除')
       }
       const res = await deleteUser(val)
-      console.log(this.queryInfo.pagesize)
       if (res.meta.status !== 200) {
         return this.$message.error(`${res.meta.msg}`)
       }
       this.$message.success(`${res.meta.msg}`)
       await this.getUsers()
-      console.log(this.queryInfo.pagesize)
       // 判断页面数量
     },
     // 获取角色列表
@@ -293,13 +291,11 @@ export default {
     },
     // 取消弹层添加用户
     dialogHandler () {
-      console.log('1')
       this.dialogVisible = false
       this.$refs.inputForm.$children[0].resetFields()
     },
     // 编辑用户取消弹层
     editDialogClose () {
-      console.log('2')
       this.editDialog = false
     },
     // 分配角色弹层取消
