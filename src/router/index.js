@@ -89,7 +89,6 @@ const routes = [
 
 const router = new VueRouter({
   // 可以通过mode 指定当前工程的访问 默认 hash 可以指定 history
-  mode: 'history',
   routes
 })
 
