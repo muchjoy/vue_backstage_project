@@ -200,7 +200,6 @@ export default {
     },
     // 添加商品
     addGoods () {
-      console.log(this.$refs.goodsInfoForm)
       this.$refs.goodsInfoForm.validate(async valid => {
         if (!valid) {
           return this.$message.error('添加商品失败')
@@ -228,7 +227,7 @@ export default {
         // 发送请求
         const { meta } = await addGoodsData(from)
         try {
-          if (meta.status !== 200) {
+          if (meta.status !== 201) {
             return this.$message.error(meta.msg)
           }
           this.$message.success(meta.msg)
