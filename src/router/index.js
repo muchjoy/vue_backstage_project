@@ -94,6 +94,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/login') {
+    window.sessionStorage.setItem('active', '')
     return next()
   }
   const sToken = window.sessionStorage.getItem('token')
