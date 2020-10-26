@@ -1,11 +1,10 @@
 <template>
   <!--表单-->
-  <el-form class="login_form" :model="addressInfo" :rules="addressRules" label-width="80px">
+  <el-form class="login_form" :model="addressInfo" :rules="addressRules" label-width="100px">
     <!--用户名-->
     <el-form-item prop="address" label="省市区/县">
       <el-cascader
-        v-model="value"
-        :options="options"
+        :options="citydata"
         :props="{ expandTrigger: 'hover' }"
         @change="handleChange"></el-cascader>
     </el-form-item>
@@ -16,6 +15,8 @@
 </template>
 
 <script>
+import citydata from './citydata'
+
 export default {
   name: 'editOrdersInput',
   data () {
@@ -32,7 +33,8 @@ export default {
           { required: true, message: '角色描述', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
         ]
-      }
+      },
+      citydata
     }
   },
   methods: {
@@ -44,5 +46,7 @@ export default {
 </script>
 
 <style scoped>
-
+.el-cascader {
+  width: 100%;
+}
 </style>

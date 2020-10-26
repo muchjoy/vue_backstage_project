@@ -42,6 +42,9 @@
             <!--编辑-->
             <edit-modular title="修改地址"
             >
+              <template #formInput>
+                <edit-orders-input></edit-orders-input>
+              </template>
             </edit-modular>
             <el-button type="success" effect="dark" size="mini">
               <i class="el-icon-location"></i>
@@ -64,8 +67,13 @@
 <script>
 import { getDataList } from '@/network/orders/orders'
 
+import editOrdersInput from '@/components/orders/editOrdersInput'
+
 export default {
   name: 'orders',
+  components: {
+    editOrdersInput
+  },
   data () {
     return {
       // 订单请求参数

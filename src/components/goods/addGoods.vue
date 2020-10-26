@@ -23,7 +23,7 @@
       </el-steps>
 
       <!-- tab栏 -->
-      <el-form :model="tabDataList" :rules="tabFormRules" ref="ruleForm" label-width="100px" class="demo-ruleForm" label-position="top">
+      <el-form :model="tabDataList" :rules="tabFormRules" ref="goodsInfoForm" label-width="100px" class="demo-ruleForm" label-position="top">
         <el-tabs :tab-position="'left'" v-model="activeIndex" :before-leave="tabBeforeLeave" @tab-click="tabClick">
           <!--基本信息-->
           <el-tab-pane label="基本信息" name="0">
@@ -95,7 +95,9 @@
 
 <script>
 // 请求
-import { getGoodsList, getManyDataList } from '@/network/goods/goods'
+import { getGoodsList, getManyDataList, addGoodsData } from '@/network/goods/goods'
+
+import _ from 'lodash'
 
 export default {
   name: 'addGoods',
@@ -110,7 +112,8 @@ export default {
         goods_number: 0,
         goods_cat: '',
         pics: [],
-        goods_introduce: ''
+        goods_introduce: '',
+        attrs: []
       },
       // from表单验证
       tabFormRules: {
@@ -197,7 +200,43 @@ export default {
     },
     // 添加商品
     addGoods () {
-      console.log(this.tabDataListia)
+      console.log(this.$refs.goodsInfoForm)
+      this.$refs.goodsInfoForm.validate(async valid => {
+        if (!valid) {
+          return this.$message.error('添加商品失败')
+        }
+        const from = _.cloneDeep(this.tabDataList)
+        from.goods_cat = from.goods_cat.join(',')
+        // 处理商品参数
+        this.manyData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
+          }
+          this.tabDataList.attrs.push(newInfo)
+        })
+        // 静态属性
+        this.onlyData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
+          }
+          this.tabDataList.attrs.push(newInfo)
+        })
+        // 将tabDataList中的attrs赋值给from中的attrs
+        from.attrs = this.tabDataList.attrs
+        // 发送请求
+        const { meta } = await addGoodsData(from)
+        try {
+          if (meta.status !== 200) {
+            return this.$message.error(meta.msg)
+          }
+          this.$message.success(meta.msg)
+          await this.$router.push('/goods')
+        } catch (e) {
+          this.$message.error(e)
+        }
+      })
     },
     // 级联触发
     handleChange () {

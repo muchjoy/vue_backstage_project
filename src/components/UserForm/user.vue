@@ -124,7 +124,7 @@ export default {
         // 当前页数
         pagenum: 1,
         // 当前每页条数
-        pagesize: 1
+        pagesize: 4
       },
       // 用户信息
       userList: [],

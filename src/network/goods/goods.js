@@ -35,3 +35,12 @@ export const getManyDataList = (id, type) => {
     }
   })
 }
+
+// 添加商品
+export const addGoodsData = (data) => {
+  return request({
+    url: 'goods',
+    method: 'post',
+    data
+  })
+}
