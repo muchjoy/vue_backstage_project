@@ -138,10 +138,12 @@ export default {
   background-color: #eaedf1;
 }
 .btnCollapse {
-  font-size: 14px;
+  font-size: 10px;
   color: #ffffff;
+  line-height: 24px;
   text-align: center;
-  background-color: #5a5858;
+  background-color: #4a5064;
   cursor:pointer;
+  letter-spacing: 0.2em;
 }
 </style>

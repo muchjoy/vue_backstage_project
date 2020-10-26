@@ -40,10 +40,12 @@
         <el-table-column label="操作">
           <template>
             <!--编辑-->
-            <edit-modular title="修改地址"
+            <edit-modular
+              title="修改地址"
+              @dialogChange="closeHandle"
             >
               <template #formInput>
-                <edit-orders-input></edit-orders-input>
+                <edit-orders-input ref="editInput"></edit-orders-input>
               </template>
             </edit-modular>
             <el-button type="success" effect="dark" size="mini">
@@ -117,6 +119,10 @@ export default {
       console.log(val)
       this.queryInfo.pagenum = val
       this.getOrders()
+    },
+    // 关闭弹层 清空表单内容
+    closeHandle () {
+      this.$refs.editInput.$children[0].resetFields()
     }
   }
 }

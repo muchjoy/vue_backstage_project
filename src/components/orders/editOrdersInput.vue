@@ -4,6 +4,7 @@
     <!--用户名-->
     <el-form-item prop="address" label="省市区/县">
       <el-cascader
+        v-model="addressInfo.address"
         :options="citydata"
         :props="{ expandTrigger: 'hover' }"
         @change="handleChange"></el-cascader>
@@ -27,10 +28,10 @@ export default {
       },
       addressRules: {
         address: [
-          { required: true, message: '地址', trigger: 'blur' }
+          { required: true, message: '请选择省市区县', trigger: 'blur' }
         ],
         detailedAddress: [
-          { required: true, message: '角色描述', trigger: 'blur' },
+          { required: true, message: '请输入详细地址', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
         ]
       },
